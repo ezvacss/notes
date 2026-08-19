@@ -1,0 +1,15 @@
+[Unit]
+Description=Service of notesApp
+After=network.target
+
+[Service]
+User=vovan
+WorkingDirectory=/home/vovan/devops_workout/notesApp
+Environment=NOTES_FILE=/home/vovan/devops_workout/notesApp/notes.txt
+Environment=PORT=8080
+ExecStart=/usr/bin/python3 /home/vovan/devops_workout/notesApp/app.py
+Restart=always
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target

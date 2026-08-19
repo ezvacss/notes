@@ -1,0 +1,6 @@
+notes.txt
+*.log
+__pycache__/
+.env
+*.key
+*.crt
