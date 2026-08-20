@@ -1,0 +1,39 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Установить Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Проверить синтаксис приложения
+        run: python -m py_compile app.py
+
+      - name: Проверить стиль кода
+        run: |
+          pip install ruff
+          ruff check app.py
+
+      - name: Проверить, что сервис отвечает
+        run: |
+          PORT=8080 python app.py &
+          sleep 2
+          curl --fail --silent http://localhost:8080/healthz
+          echo "healthcheck прошёл"
+
+      - name: Проверить конфиг nginx
+        run: |
+          sudo apt-get update && sudo apt-get install -y nginx
+          sudo cp deploy/notes.conf /etc/nginx/conf.d/
+          sudo nginx -t
