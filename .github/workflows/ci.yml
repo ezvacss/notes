@@ -12,28 +12,35 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Установить Python
-        uses: actions/setup-python@v5
+      - name: installing python
+        uses: actions/setup-python@v7
         with:
           python-version: "3.12"
 
-      - name: Проверить синтаксис приложения
+      - name: checking app syntax
         run: python -m py_compile app.py
 
-      - name: Проверить стиль кода
+      - name: checking code style
         run: |
           pip install ruff
           ruff check app.py
 
-      - name: Проверить, что сервис отвечает
+      - name: check that service is responding
         run: |
           PORT=8080 python app.py &
           sleep 2
           curl --fail --silent http://localhost:8080/healthz
           echo "healthcheck прошёл"
 
-      - name: Проверить конфиг nginx
+      - name: checking nginx config
         run: |
           sudo apt-get update && sudo apt-get install -y nginx
-          sudo cp deploy/notes.conf /etc/nginx/conf.d/
+
+          sudo mkdir -p /etc/nginx/tls
+          sudo openssl req -x509 -nodes -days 1 -newkey rsa:2048 \
+            -keyout /etc/nginx/tls/notes.key \
+            -out /etc/nginx/tls/notes.crt \
+            -subj "/CN=notesApp.test"
+
+          sudo cp deploy/notesApp.conf /etc/nginx/conf.d/
           sudo nginx -t
