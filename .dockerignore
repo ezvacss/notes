@@ -1,0 +1,7 @@
+.git
+*.log
+notes.txt
+.env
+*.key
+*.crt
+__pycache__/
