@@ -1,7 +1,29 @@
-.git
-*.log
-notes.txt
-.env
-*.key
-*.crt
-__pycache__/
+   .git
+   .gitignore
+   .dockerignore
+
+   README.md
+   notes.txt
+
+   infra/
+   k8s/
+   chart/
+   ansible/
+   deploy/
+   deploy.sh
+   compose.yml
+
+   __pycache__/
+   *.pyc
+   *.pyo
+   *.pyd
+   .venv/
+   venv/
+   env/
+   .pytest_cache/
+   .mypy_cache/
+
+   .DS_Store
+   Thumbs.db
+   .vscode/
+   .idea/

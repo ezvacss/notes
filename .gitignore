@@ -1,6 +1,38 @@
-notes.txt
-*.log
-__pycache__/
-.env
-*.key
-*.crt
+   notes.txt
+   *.log
+
+   __pycache__/
+   *.py[cod]
+   *$py.class
+   .venv/
+   venv/
+   ENV/
+   env/
+   .pytest_cache/
+   .mypy_cache/
+   .ruff_cache/
+   dist/
+   build/
+   *.egg-info/
+
+   infra/.terraform/
+   infra/*.tfstate
+   infra/*.tfstate.*
+   infra/crash.log
+   infra/*.tfvars
+   !infra/*.example.tfvars
+
+   chart/charts/
+   chart/*.tgz
+
+   .env
+   *.pem
+   *.key
+   *.crt
+
+   .DS_Store
+   Thumbs.db
+   .vscode/
+   .idea/
+   *.swp
+   *.swo
