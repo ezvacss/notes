@@ -1,0 +1,10 @@
+groups:
+  - name: demo
+    rules:
+      - alert: HighCPUUsage
+        expr: 100 - avg(rate(node_cpu_seconds_total{mode="idle"}[5m])) * 100 > 80
+        for: 2m
+        labels: { severity: warning }
+        annotations:
+          summary: "high CPU load"
+          description: "CPU > 80% in 2 minutes"

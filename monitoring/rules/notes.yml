@@ -1,0 +1,21 @@
+groups:
+  - name: notes
+    rules:
+      - alert: NotesDown
+        expr: up{job="notes"} == 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "service notes doesnt respond"
+          description: "prometheus cant collect metrics about 1 minutes already, check docker compose ps, docker compose logs notes"
+
+      - alert: NotesHighErrorRate
+        expr: |
+          sum(rate(notes_requests_total{status=~"5.."}[5m]))
+          / sum(rate(notes_requests_total[5m])) > 0.05
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "more then 5% of request finish with error"
