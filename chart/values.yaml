@@ -12,7 +12,7 @@ service:
 serviceAccount:
   create: true
   name: ""
-
+  automount: true
 httpRoute:
   enabled: false
 
