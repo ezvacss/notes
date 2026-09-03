@@ -21,7 +21,7 @@ spec:
       serviceAccountName: notes
       containers:
         - name: notes
-          image: notes:1.0
+          image: ezvacss/notes:1.0.0 # {"$imagepolicy": "flux-system:notes"}
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8080
