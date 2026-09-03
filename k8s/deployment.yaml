@@ -13,7 +13,12 @@ spec:
     metadata:
       labels:
         app: notes
+      annotations:
+        vault.hashicorp.com/agent-inject: "true"
+        vault.hashicorp.com/role: "notes"
+        vault.hashicorp.com/agent-inject-secret-db: "secret/data/notes"
     spec:
+      serviceAccountName: notes
       containers:
         - name: notes
           image: notes:1.0
@@ -25,38 +30,25 @@ spec:
               value: "8080"
             - name: NOTES_FILE
               value: /data/notes.txt
-          envFrom:
-            - configMapRef:
-                name: notes-config
-            - secretRef:
-                name: notes-secret
-
-
           resources:
-           requests:
-             cpu: 50m
-             memory: 64Mi
-           limits:
-             cpu: 200m
-             memory: 128Mi
-
-
+            requests:
+              cpu: 50m
+              memory: 64Mi
+            limits:
+              cpu: 200m
+              memory: 128Mi
           livenessProbe:
             httpGet:
               path: /healthz
               port: 8080
             initialDelaySeconds: 5
             periodSeconds: 10
-
-
           readinessProbe:
             httpGet:
               path: /healthz
               port: 8080
             initialDelaySeconds: 2
             periodSeconds: 5
-
-
           volumeMounts:
             - name: data
               mountPath: /data
